@@ -1,6 +1,14 @@
 # simple site for free ads
 
--------------------------------------------------------------------------------------------------------------------------------------------
+v 0.2
+
+Added the ability to work with accounts (edit, change).  
+Added the ability to work with products (edit, delete).  
+Authorization data is stored in the session.  
+Now you can view other people's accounts and products posted by them.  
+Product and account data is stored in the DaoModel class (LinkedHashSet and HashSet).  
+Passwords are hashed for storage.  
+------------------------------------------------------------------------------------------------------------------------------------------
 v 0.1
 
 The site has the ability to add products after authorization.  
