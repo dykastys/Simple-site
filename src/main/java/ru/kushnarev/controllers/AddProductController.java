@@ -1,6 +1,7 @@
 package ru.kushnarev.controllers;
 
 import ru.kushnarev.entities.Product;
+import ru.kushnarev.entities.User;
 import ru.kushnarev.models.impl.DaoModel;
 
 import javax.servlet.ServletException;
@@ -10,22 +11,50 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class AddProductController extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("add_the_product.jsp");
+        User user = (User) req.getSession().getAttribute("user");
+        if(user == null) {
+            req.getRequestDispatcher("/authorization").forward(req, resp);
+        }
+        req.getRequestDispatcher("add_the_product.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
-        double price;
+        Double price;
+        Product product;
+
+        if(name == null || name.isEmpty()) {
+            req.setAttribute("error", "name isn't correct");
+            req.getRequestDispatcher("add_the_product.jsp").forward(req, resp);
+            return;
+        }
+
+        if((price = priceIsNotCorrect(req,resp)) == null) {
+            return;
+        }
+
+        User user = (User) req.getSession().getAttribute("user");
+        product = new Product(user, name, price);
+        user.addProductInAddedProduct(product);
+        DaoModel.getInstance().putProduct(product);
+        req.setAttribute("add", product);
+        req.getRequestDispatcher("success.jsp").forward(req,resp);
+    }
+
+    private Double priceIsNotCorrect(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String price = req.getParameter("price")
+                .replaceAll(",",".")
+                .replaceAll(" ","");
         try {
-            price = Double.parseDouble(req.getParameter("price"));
-            Product product = new Product(name, price);
-            DaoModel.getInstance().db.put(String.format("http://localhost:8080/eshop/product?id=%s",product.getId()), product);
-            req.getRequestDispatcher("successfully_adding_the_product.jsp").forward(req,resp);
+            return Double.parseDouble(price);
         }catch (NumberFormatException nop) {
-            req.getRequestDispatcher("error_when_adding_ the_product.jsp").forward(req,resp);
+            req.setAttribute("error", "price isn't correct");
+            req.getRequestDispatcher("add_the_product.jsp").forward(req,resp);
+            return null;
         }
     }
 }

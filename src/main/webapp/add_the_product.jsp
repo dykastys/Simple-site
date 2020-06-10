@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: chako
@@ -34,7 +35,13 @@
             </label>
         </form>
 
-        <a href="index.jsp"><b>main page</b></a>
+        <a href="${pageContext.request.contextPath}/"><b>main page</b></a>
     <hr>
+
+    <c:if test="${not empty error}">
+        <br/>
+        <br/>
+        <font color="red">${pageContext.request.getAttribute("error")}</font>
+    </c:if>
 </body>
 </html>

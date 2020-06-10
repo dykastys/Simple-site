@@ -15,6 +15,6 @@
     <hr>
     <h2>This page has been not found!</h2>
     <hr>
-    <br/><a href="index.jsp">return on main page</a>
+    <br/><a href="${pageContext.request.contextPath}">return on main page</a>
 </body>
 </html>

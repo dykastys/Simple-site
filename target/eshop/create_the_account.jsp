@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: chako
@@ -17,31 +18,42 @@
     </h2>
 
     <hr>
-        <form action="${pageContext.request.contextPath}/add_account" method="post">
+        <form action="${pageContext.request.contextPath}/create_account" method="post">
             <label>
                 <br/>
                     <b>
                         <pre>Enter the Login:</pre>
                     </b>
-                        <input type="text" name="login" value="enter the login" size="20" maxlength="20">
+                    <input type="text" name="login" value="" size="20" maxlength="20">
                 <br/>
                     <b>
                         <pre>Enter the Password:</pre>
                     </b>
-                        <input type="text" name="password1" value="enter the password" size="20" maxlength="20">
+                        <input type="password" name="password1" value="" size="20" maxlength="20">
                 <br/>
                     <b>
                         <pre>Repeat the Password:</pre>
                     </b>
-                        <input type="text" name="password2" value="repeat the password" size="20" maxlength="20">
+                        <input type="password" name="password2" value="" size="20" maxlength="20">
+                <br/>
+                    <b>
+                        <pre>Enter the Phone number:</pre>
+                    </b>
+                        <input type="text" name="phone" value="" size="20" maxlength="20">
                 <br/>
                 <br/>
                     <input type="submit" value="register">
                     <br/>
                     <br/>
-                    <a href="index.jsp"><b>main page</b></a>
+                    <a href="${pageContext.request.contextPath}/"><b>main page</b></a>
             </label>
         </form>
     <hr>
+
+    <c:if test="${not empty error}">
+        <br/>
+        <br/>
+        <b><font color="red">${pageContext.request.getAttribute("error")}</font></b>
+    </c:if>
 </body>
 </html>

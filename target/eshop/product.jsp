@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>product_${product.id}</title>
+    <title>product_${product.name}</title>
 </head>
 <body>
     <br/>
@@ -20,9 +20,12 @@
     <hr>
         <b>Name</b> - ${product.name}<br/>
         <b>Price</b> - ${product.price} $
+        <br/>
+        <br/>
+        <b>Seller</b> - <a href="${pageContext.request.contextPath}/account?name=${product.user.name}">${product.user.name}</a>
     <hr>
 
     <br/>
-    <a href="index.jsp"><b>main page</b></a>
+    <a href="${pageContext.request.contextPath}/"><b>main page</b></a>
 </body>
 </html>

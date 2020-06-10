@@ -1,39 +1,32 @@
 package ru.kushnarev.models.impl;
 
 import ru.kushnarev.entities.Product;
+import ru.kushnarev.entities.User;
 import ru.kushnarev.models.Dao;
 import ru.kushnarev.models.exceptions.NoSuchEntityException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.*;
 
 public class DaoModel implements Dao {
-    public final Map<String, Product> db = new ConcurrentHashMap<>();
     private static final DaoModel instance = new DaoModel();
+
+    private final Set<Product> products = new LinkedHashSet<>();
+    private final Set<User> users = new HashSet<>();
 
     private DaoModel(){}
 
     public static DaoModel getInstance() {
-        /*instance.setProduct(new Product("Bread",2.54));
-        instance.setProduct(new Product("Beer",5.45));
-        instance.setProduct(new Product("Kit",345.534));*/
         return instance;
     }
 
     @Override
-    public boolean setProduct(Product product) {
-        if(product == null || db.containsKey(String.format("http://localhost:8080/eshop/product?id=%s", product.getId()))) {
-            return false;
-        }
-        db.put(String.format("http://localhost:8080/eshop/product?id=%s", product.getId()), product);
-        return true;
+    public synchronized void putProduct(Product product) {
+        products.add(product);
     }
 
     @Override
-    public Product getProduct(int id) throws NoSuchEntityException {
-        for(Product product: db.values()) {
+    public synchronized Product getProduct(int id) throws NoSuchEntityException {
+        for(Product product: products) {
             if(product.getId() == id) {
                 return product;
             }
@@ -42,7 +35,27 @@ public class DaoModel implements Dao {
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return new ArrayList<>(db.values());
+    public synchronized Set<Product> getProductDB() {
+        return products;
+    }
+
+    @Override
+    public synchronized void putUser(User user) {
+        users.add(user);
+    }
+
+    @Override
+    public synchronized User getUser(String name) throws NoSuchEntityException {
+        for (User user: users) {
+            if(user.getName().equals(name)) {
+                return user;
+            }
+        }
+        throw new NoSuchEntityException(String.format("DB doesn't contain account for %s name", name));
+    }
+
+    @Override
+    public synchronized Set<User> getAllUsers() {
+        return users;
     }
 }

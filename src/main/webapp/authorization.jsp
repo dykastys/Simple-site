@@ -1,3 +1,5 @@
+<%@ page import="ru.kushnarev.models.Dao" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: chako
@@ -17,17 +19,17 @@
     </h2>
 
     <hr>
-        <form action="${pageContext.request.contextPath}/check" method="post">
+        <form action="${pageContext.request.contextPath}/authorization" method="post">
             <label>
                 <br/>
                     <b>
-                        <pre> Login:</pre>
+                        <pre>Login:</pre>
                     </b>
                         <input type="text" name="login" value="enter the login" size="20" maxlength="20">
                 <br/>
                 <br/>
                     <b>
-                        <pre> Password:</pre>
+                        <pre>Password:</pre>
                     </b>
                         <input type="text" name="password" value="enter the password" size="20" maxlength="20">
                 <br/>
@@ -38,9 +40,15 @@
             </label>
         </form>
 
-        <a href="create_the_account.jsp"><b>create new account</b></a>
+        <a href="${pageContext.request.contextPath}/create_account"><b>create new account</b></a>
         <br/>
-        <a href="index.jsp"><b>main page</b></a>
+        <a href="${pageContext.request.contextPath}/"><b>main page</b></a>
     <hr>
+
+    <c:if test="${not empty error}">
+        <br/>
+        <br/>
+        <font color="red"><%=request.getAttribute("error")%></font>
+    </c:if>
 </body>
 </html>

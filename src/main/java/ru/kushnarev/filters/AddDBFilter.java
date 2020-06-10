@@ -9,14 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 
-public class AddBaseFilter extends BaseFilter {
+public class AddDBFilter extends BaseFilter {
 
     @Override
     void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        Map<String, Product> db = (Map<String, Product>) request.getAttribute("db");
-        if(db == null || !db.equals(DaoModel.getInstance().db)) {
-            request.setAttribute("db", DaoModel.getInstance().db);
+        Set<Product> db = (Set<Product>) request.getAttribute("db");
+        if(db == null || !db.equals(DaoModel.getInstance().getProductDB())) {
+            request.setAttribute("db", DaoModel.getInstance().getProductDB());
         }
         chain.doFilter(request, response);
     }

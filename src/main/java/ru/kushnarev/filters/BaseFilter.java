@@ -16,7 +16,6 @@ public  abstract class BaseFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         //NOP
-        System.out.println(">>Filter init");
     }
 
     @Override
