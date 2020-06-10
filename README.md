@@ -2,8 +2,8 @@
 
 v 0.2
 
-Added the ability to work with accounts (edit, change).  
-Added the ability to work with products (edit, delete).  
+Added the ability to work with your accounts (edit, change).  
+Added the ability to work with your products (edit, delete).  
 Authorization data is stored in the session.  
 Now you can view other people's accounts and products posted by them.  
 Product and account data is stored in the DaoModel class (LinkedHashSet and HashSet).  
